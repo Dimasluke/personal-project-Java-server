@@ -1,11 +1,10 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,4 +22,8 @@ public class ChampionEntity {
     private int mobility;
     private String iconUrl;
 
+
+    @ManyToMany(mappedBy = "champions")
+    @JsonBackReference
+    private List<TeamEntity> teams;
 }
