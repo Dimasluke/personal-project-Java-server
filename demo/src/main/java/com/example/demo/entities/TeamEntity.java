@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -25,4 +26,18 @@ public class TeamEntity {
     )
     @JsonManagedReference
     private List<ChampionEntity> champions;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JsonManagedReference
+    private UserEntity userEntity;
+
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
 }

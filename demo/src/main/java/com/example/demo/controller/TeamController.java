@@ -7,6 +7,7 @@ import com.example.demo.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,10 +33,11 @@ public class TeamController {
     }
 
     @PostMapping(value = "/teams")
-    public String saveTeam(@RequestBody Map<String, String> team) {
+    public String saveTeam(@RequestBody Map<String, String> team, Principal principal) {
         System.out.println(team);
         TeamEntity newTeam = new TeamEntity();
         newTeam.setTeamName(team.get("teamName"));
+        newTeam.setTeamOwner(principal.getName());
 
         List<ChampionEntity> champions = new ArrayList<>();
         champions.add(championRepository.findById(Integer.parseInt(team.get("champion1"))).orElse(null));
