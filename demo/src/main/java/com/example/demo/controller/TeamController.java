@@ -12,7 +12,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 public class TeamController {
@@ -32,9 +31,10 @@ public class TeamController {
     }
 
     @GetMapping(value = "/teams/{id}")
-    public Optional<TeamEntity> getTeam(@PathVariable Integer id) {
+    public TeamEntity getTeam(@PathVariable Integer id) {
         System.out.println("getTeamController hit controller hit");
-        return teamRepository.findById(id);
+        TeamEntity currentTeam = teamRepository.findById(id).orElse(null);
+        return currentTeam;
     }
 
     @PostMapping(value = "/teams")
@@ -56,11 +56,12 @@ public class TeamController {
 
         return "Success";
     }
-
+//
     @PutMapping(value = "/teams/{id}")
-    public String updateTeam(@RequestBody Map<String, String> team, @PathVariable Integer id) {
+    public TeamEntity updateTeam(@RequestBody Map<String, String> team, @PathVariable Integer id) {
         TeamEntity currentTeam = teamRepository.findById(id).orElse(null);
-        System.out.println(currentTeam);
+        System.out.println("================="+ team);
+        System.out.println(id);
         currentTeam.setTeamName(team.get("teamName"));
         List<ChampionEntity> champions = new ArrayList<>();
         champions.add(championRepository.findById(Integer.parseInt(team.get("champion1"))).orElse(null));
@@ -72,7 +73,7 @@ public class TeamController {
 
         teamRepository.save(currentTeam);
 
-        return "success";
+        return currentTeam;
     }
 
 //    @PutMapping(value = "/teams/{id}")
