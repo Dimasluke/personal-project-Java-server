@@ -58,25 +58,48 @@ public class TeamController {
     }
 
     @PutMapping(value = "/teams/{id}")
-    public String updateTeam(@RequestBody Map<String, String > team, @PathVariable Integer id) {
-        System.out.println(team);
-        System.out.println(id);
-        System.out.println("Route hit");
-        teamRepository.findById(id)
-                .map(currentTeam -> {
-                    currentTeam.setTeamName(team.get("teamName"));
-                    List<ChampionEntity> champions = new ArrayList<>();
-                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion1"))).orElse(null));
-                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion2"))).orElse(null));
-                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion3"))).orElse(null));
-                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion4"))).orElse(null));
-                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion5"))).orElse(null));
-                        currentTeam.setChampions(champions);
-                        return teamRepository.save(currentTeam);
-                });
+    public String updateTeam(@RequestBody Map<String, String> team, @PathVariable Integer id) {
+        TeamEntity currentTeam = teamRepository.findById(id).orElse(null);
+        System.out.println(currentTeam);
+        currentTeam.setTeamName(team.get("teamName"));
+        List<ChampionEntity> champions = new ArrayList<>();
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion1"))).orElse(null));
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion2"))).orElse(null));
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion3"))).orElse(null));
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion4"))).orElse(null));
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion5"))).orElse(null));
+        currentTeam.setChampions(champions);
+
+        teamRepository.save(currentTeam);
 
         return "success";
     }
+
+//    @PutMapping(value = "/teams/{id}")
+//    public String updateTeam(@RequestBody Map<String, String > team, @PathVariable Integer id, Principal principal) {
+//        System.out.println(team);
+//        System.out.println(id);
+//        System.out.println("Route hit");
+//        teamRepository.findById(id)
+//                .map(currentTeam -> {
+//                    currentTeam.setTeamName(team.get("teamName"));
+//                    currentTeam.setTeamOwner(principal.getName());
+//                    List<ChampionEntity> champions = new ArrayList<>();
+//                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion1"))).orElse(null));
+//                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion2"))).orElse(null));
+//                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion3"))).orElse(null));
+//                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion4"))).orElse(null));
+//                        champions.add(championRepository.findById(Integer.parseInt(team.get("champion5"))).orElse(null));
+//                        currentTeam.setChampions(champions);
+//                        System.out.println(currentTeam);
+//                        return teamRepository.save(currentTeam);
+//                })
+//                .orElseGet(() -> {
+//                    return null;
+//                });
+//
+//        return "success";
+//    }
 
     @DeleteMapping(value = "/teams/{id}")
     void deleteTeam(@PathVariable Integer id){
