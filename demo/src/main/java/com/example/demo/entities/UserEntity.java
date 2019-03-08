@@ -1,6 +1,5 @@
 package com.example.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,13 +16,13 @@ import java.util.List;
 @Entity
 public class UserEntity implements UserDetails {
 
-    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "userEntity", orphanRemoval = true)
-    @JsonBackReference
-    private List<TeamEntity> teamEntityList = new ArrayList<>();
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "userEntity", orphanRemoval = true)
+    @JsonIgnore
+    private List<TeamEntity> teamEntityList = new ArrayList<>();
 
     @NotBlank(message = "Username is required")
     @Column(unique = true)
@@ -32,7 +31,6 @@ public class UserEntity implements UserDetails {
     @NotBlank(message = "Password field is required")
     private String password;
     @Transient
-    private String confirmPassword;
 
     private Date create_At;
     private Date update_At;

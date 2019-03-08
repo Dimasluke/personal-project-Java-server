@@ -4,6 +4,7 @@ import com.example.demo.entities.ChampionEntity;
 import com.example.demo.entities.TeamEntity;
 import com.example.demo.repository.ChampionRepository;
 import com.example.demo.repository.TeamRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,12 @@ public class TeamController {
 
     @Autowired
     TeamRepository teamRepository;
+
     @Autowired
     ChampionRepository championRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping(value = "/teams")
     public Iterable<TeamEntity> getAllTeams() {
@@ -50,5 +55,18 @@ public class TeamController {
         teamRepository.save(newTeam);
 
         return "Success";
+    }
+
+    @PutMapping(value = "/teams/{id}")
+    public String updateTeam(@RequestBody Map<String, String > team, @PathVariable Integer id) {
+        TeamEntity saveTeam = teamRepository.findById(id);
+
+
+    }
+
+    @DeleteMapping(value = "/teams/{id}")
+    void deleteTeam(@PathVariable Integer id){
+        System.out.println("delete route hit");
+        teamRepository.deleteById(id);
     }
 }

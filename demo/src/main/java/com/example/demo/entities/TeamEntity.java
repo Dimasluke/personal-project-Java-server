@@ -27,9 +27,8 @@ public class TeamEntity {
     @JsonManagedReference
     private List<ChampionEntity> champions;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnore
-    @JsonManagedReference
     private UserEntity userEntity;
 
 

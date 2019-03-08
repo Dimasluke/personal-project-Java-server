@@ -8,7 +8,6 @@ import com.example.demo.services.MapValidationErrorService;
 import com.example.demo.services.UserService;
 import com.example.demo.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,6 +46,7 @@ public class UserController {
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result){
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap != null) return errorMap;
+        System.out.println(errorMap);
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -57,7 +57,7 @@ public class UserController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = TOKEN_PREFIX + tokenProvider.generateToken(authentication);
-
+        System.out.println(loginRequest);
         return ResponseEntity.ok(new JWTLoginSuccessResponse(true, jwt));
     }
 
@@ -69,9 +69,13 @@ public class UserController {
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap != null)return errorMap;
-
+        System.out.println(errorMap);
         UserEntity newUser = userService.saveUser(userEntity);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userEntity, null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new ResponseEntity<UserEntity>(newUser, HttpStatus.CREATED);
+        String jwt = TOKEN_PREFIX + tokenProvider.generateToken(authentication);
+
+        return ResponseEntity.ok(jwt);
     }
 }

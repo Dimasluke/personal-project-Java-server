@@ -21,6 +21,7 @@ public class ChampionEntity {
     private int utility;
     private int mobility;
     private String iconUrl;
+    private String embedString;
 
 
     @ManyToMany(mappedBy = "champions")
