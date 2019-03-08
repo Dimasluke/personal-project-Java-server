@@ -75,7 +75,7 @@ public class TeamController {
         champions.add(championRepository.findById(Integer.parseInt(team.get("champion5"))).orElse(null));
         updatedTeam.setChampions(champions);
 
-        updatedTeam.save(updatedTeam);
+        teamRepository.save(updatedTeam);
 
 
         return "success";
