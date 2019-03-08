@@ -6,6 +6,7 @@ import com.example.demo.repository.ChampionRepository;
 import com.example.demo.repository.TeamRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -59,9 +60,25 @@ public class TeamController {
 
     @PutMapping(value = "/teams/{id}")
     public String updateTeam(@RequestBody Map<String, String > team, @PathVariable Integer id) {
-        TeamEntity saveTeam = teamRepository.findById(id);
+        System.out.println(team);
+        System.out.println(id);
+        System.out.println("Route hit");
+        TeamEntity updatedTeam = teamRepository.findById(id);
+
+        updatedTeam.setTeamName(team.get("teamName"));
+
+        List<ChampionEntity> champions = new ArrayList<>();
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion1"))).orElse(null));
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion2"))).orElse(null));
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion3"))).orElse(null));
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion4"))).orElse(null));
+        champions.add(championRepository.findById(Integer.parseInt(team.get("champion5"))).orElse(null));
+        updatedTeam.setChampions(champions);
+
+        updatedTeam.save(updatedTeam);
 
 
+        return "success";
     }
 
     @DeleteMapping(value = "/teams/{id}")

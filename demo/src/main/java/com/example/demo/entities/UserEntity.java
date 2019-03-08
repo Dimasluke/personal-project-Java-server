@@ -7,10 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -20,9 +18,9 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "userEntity", orphanRemoval = true)
-    @JsonIgnore
-    private List<TeamEntity> teamEntityList = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, mappedBy = "userEntity", orphanRemoval = true)
+//    @JsonIgnore
+//    private List<TeamEntity> teamEntityList = new ArrayList<>();
 
     @NotBlank(message = "Username is required")
     @Column(unique = true)
@@ -80,12 +78,12 @@ public class UserEntity implements UserDetails {
         return true;
     }
 
-    public List<TeamEntity> getTeamEntityList() {
-        return teamEntityList;
-    }
-
-    public void setTeamEntityList(List<TeamEntity> teamEntityList) {
-        this.teamEntityList = teamEntityList;
-    }
+//    public List<TeamEntity> getTeamEntityList() {
+//        return teamEntityList;
+//    }
+//
+//    public void setTeamEntityList(List<TeamEntity> teamEntityList) {
+//        this.teamEntityList = teamEntityList;
+//    }
 
 }
