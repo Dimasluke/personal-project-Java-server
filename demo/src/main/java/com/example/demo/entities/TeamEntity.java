@@ -6,7 +6,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -26,9 +25,6 @@ public class TeamEntity {
     )
     @JsonManagedReference
     private List<ChampionEntity> champions;
-
-    @OneToMany(mappedBy = "teamEntity", cascade = CascadeType.ALL)
-    private Set<CommentEntity> comments;
 
 //    @ManyToOne
 //    @JsonIgnore

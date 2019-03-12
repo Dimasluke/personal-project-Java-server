@@ -38,7 +38,7 @@ public class TeamController {
     }
 
     @PostMapping(value = "/teams")
-    public String saveTeam(@RequestBody Map<String, String> team, Principal principal) {
+    public TeamEntity saveTeam(@RequestBody Map<String, String> team, Principal principal) {
         System.out.println(team);
         TeamEntity newTeam = new TeamEntity();
         newTeam.setTeamName(team.get("teamName"));
@@ -52,9 +52,8 @@ public class TeamController {
         champions.add(championRepository.findById(Integer.parseInt(team.get("champion5"))).orElse(null));
         newTeam.setChampions(champions);
 
-        teamRepository.save(newTeam);
+        return teamRepository.save(newTeam);
 
-        return "Success";
     }
 //
     @PutMapping(value = "/teams/{id}")

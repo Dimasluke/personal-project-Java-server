@@ -69,7 +69,6 @@ public class UserController {
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap != null)return errorMap;
-        System.out.println(errorMap);
         UserEntity newUser = userService.saveUser(userEntity);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userEntity, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
